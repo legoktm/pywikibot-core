@@ -4,17 +4,12 @@ python:
   - '2.6'
   - '2.7'
 
-env:
-  - LANG=en FAMILY=wikipedia
-  - LANG=ar FAMILY=wikipedia
-  - LANG=test FAMILY=wikidata
-
 install:
   - mkdir ~/.pywikibot
 
   - touch ~/.pywikibot/user-config.py
   - echo "import os" >> ~/.pywikibot/user-config.py
-  - echo "mylang = '$LANG'" >> ~/.pywikibot/user-config.py
+  - echo "mylang = '$LANGUAGE'" >> ~/.pywikibot/user-config.py
   - echo "family = '$FAMILY'" >> ~/.pywikibot/user-config.py
   - echo "usernames['$FAMILY']['$LANG'] = 'Pywikibot-test'" >> ~/.pywikibot/user-config.py
   - echo "usernames['wikipedia']['en'] = 'Pywikibot-test'" >> ~/.pywikibot/user-config.py
@@ -37,6 +32,9 @@ env:
     # And http://docs.travis-ci.com/user/build-configuration/#Secure-environment-variables
     # Command use to generate: travis encrypt USER_PASSWORD=<pwd> -r wikimedia/pywikibot-core
     - secure: kofInMlisiTBt9o/Ustc/vySlkKfxGzGCX2LwA1D2waym8sDTS0o5gMJ5LsrT/BUKwZbe1vLozPHqZrrkQvsdTml+DpZuotzdILs0m0f3BUoexEC6OON5IDljuxFyETrD1Ug44ih5Mc4lVFOdTcBzg501ZmswGwQrBvg/OyEFfE=
+  - LANGUAGE=en FAMILY=wikipedia
+  - LANGUAGE=ar FAMILY=wikipedia
+  - LANGUAGE=test FAMILY=wikidata
 
 notifications:
   irc:
