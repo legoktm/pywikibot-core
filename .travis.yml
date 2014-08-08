@@ -21,7 +21,7 @@ install:
   - echo "usernames['wikipedia']['en'] = 'Pywikibot-test'" >> ~/.pywikibot/user-config.py
   - echo "password_file = os.path.expanduser('~/.pywikibot/passwordfile')" >> ~/.pywikibot/user-config.py
 
-  - if [ "$GITHUB_USER" != "wikipedia" ]; then git clone https://gist.github.com/ac0d1005e772647b0c76.git get-gist-fork; fi
+  - if [ "$GITHUB_USER" != "wikipedia" ]; then git clone https://gist.github.com/5a2417890f124c6cd7a5.git get-gist-fork; fi
   - if [ -d get-gist-fork ]; then export GITHUB_CONFIG_GIST=`python get-gist-fork/get-gist-fork.py 'a60f66b97376450bb0e0' "$GITHUB_USER"`; fi
   - if [ -n "$GITHUB_CONFIG_GIST" ]; then git clone "$GITHUB_CONFIG_GIST" user-config; fi
   - if [ -d user-config ]; then rm ~/.pywikibot/user-config.py; fi
