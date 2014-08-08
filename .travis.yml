@@ -26,6 +26,8 @@ install:
   - if [ -n "$GITHUB_CONFIG_GIST" ]; then git clone "$GITHUB_CONFIG_GIST" user-config; fi
   - if [ -d user-config ]; then rm ~/.pywikibot/user-config.py; fi
   - if [ -d user-config ]; then cp user-config/[a-z]* ~/.pywikibot/; fi
+  - echo "=== CONFIG ==="
+  - cat ~/.pywikibot/user-config.py
 
   - touch ~/.pywikibot/passwordfile
   - if [ -n "$USER_PASSWORD" ]; then echo "('Pywikibot-test', '"$USER_PASSWORD"')" > ~/.pywikibot/passwordfile; fi
