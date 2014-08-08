@@ -10,6 +10,7 @@ before_install:
 
 install:
   - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install ordereddict; fi
+  - export GITHUB_USER=`echo $TRAVIS_REPO_SLUG | cut -d '/' -f 1`
   - mkdir ~/.pywikibot
 
   - touch ~/.pywikibot/user-config.py
@@ -20,15 +21,21 @@ install:
   - echo "usernames['wikipedia']['en'] = 'Pywikibot-test'" >> ~/.pywikibot/user-config.py
   - echo "password_file = os.path.expanduser('~/.pywikibot/passwordfile')" >> ~/.pywikibot/user-config.py
 
+  - if [ "$GITHUB_USER" != "wikipedia" ]; then git clone https://gist.github.com/ac0d1005e772647b0c76.git get-gist-fork; fi
+  - if [ -d get-gist-fork ]; then export GITHUB_CONFIG_GIST=`python get-gist-fork/get-gist-fork.py 'a60f66b97376450bb0e0' "$GITHUB_USER"`; fi
+  - if [ -n "$GITHUB_CONFIG_GIST" ]; then git clone "$GITHUB_CONFIG_GIST" user-config; fi
+  - if [ -d user-config ]; then rm ~/.pywikibot/user-config.py; fi
+  - if [ -d user-config ]; then cp user-config/[a-z]* ~/.pywikibot/; fi
+
   - touch ~/.pywikibot/passwordfile
-  - echo "('Pywikibot-test', '"$USER_PASSWORD"')" > ~/.pywikibot/passwordfile
+  - if [ -n "$USER_PASSWORD" ]; then echo "('Pywikibot-test', '"$USER_PASSWORD"')" > ~/.pywikibot/passwordfile; fi
 
   - cd externals/httplib2
   - python setup.py install
   - cd ../..
 
 script:
-  - python setup.py test
+  - if [ -n "$USER_PASSWORD" ]; then python setup.py test; else PYWIKIBOT2_NO_USER_CONFIG=1 nosetests -a '!site,!net' -v ; fi
 
 env:
   global:
